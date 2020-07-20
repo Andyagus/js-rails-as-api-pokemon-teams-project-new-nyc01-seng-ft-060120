@@ -3,16 +3,5 @@ class TrainersController < ApplicationController
 		trainers = Trainer.all
 		render json: trainers, include: [:pokemons]
 	end
-
-
-
-
-
-
 	
-	private
-	def pokemon_params
-	  params.require(:pokemon).permit(:nickname, :species, :trainer_id)
-	end
-
 end

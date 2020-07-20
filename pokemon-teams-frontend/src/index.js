@@ -29,33 +29,43 @@ document.addEventListener('DOMContentLoaded', (event) => {
 		card.innerHTML = `<p> ${trainer.name} </p> `
 		main.append(card)
 		pokemonUl = document.createElement('ul')
+		renderPokemon(pokemonUl)
+		
 		pokemonUl.innerHTML = `${pokemon.join('')} `
 
 		const addPokemonButton = document.createElement('button')
 		addPokemonButton.innerHTML = "Add Pokemon"
-		addPokemonButton.addEventListener('click', addPokemon(id))
 		card.append(addPokemonButton)
-		
 		card.append(pokemonUl)
 	
+		addPokemonButton.addEventListener('click', e => {
+			addPokemon(id)
+		})
 	}
 
-	fetchTrainer();
+	const renderPokemon = (listElement, pokemon) => {
+
+	}
+
 
 	const addPokemon = function(id){
 		fetch(POKEMONS_URL, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
 			},
 			body: JSON.stringify({
-				'trainer_id': id
+				trainer_id: id
 			})
 		})
-		.then(res => res.json())
+
+		.then(resp => resp.json())
+		.then(resp => pokemonUl.innerHTML = (`<li></li>`))
 		
 	}
 		
-	
+	fetchTrainer();
+
 })
 

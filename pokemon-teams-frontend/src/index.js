@@ -18,9 +18,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 	const renderTrainers = (trainer) => {
+
+		const id = trainer.id
+		console.log(id)
 		pokemon = trainer.pokemons.map(pokemon => `<li> ${pokemon.nickname} <button class="release"> "Release" </button> </li>`) 
 		main = document.querySelector('main')
-		console.log(trainer)
 		card = document.createElement('div')
 		card.className = 'card'
 
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 		const addPokemonButton = document.createElement('button')
 		addPokemonButton.innerHTML = "Add Pokemon"
+		addPokemonButton.addEventListener('click', addPokemon(id))
 		card.append(addPokemonButton)
 		
 		card.append(pokemonUl)
@@ -39,16 +42,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 	fetchTrainer();
 
+	const addPokemon = function(id){
+		fetch(POKEMONS_URL, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				'trainer_id': id
+			})
+		})
+		.then(res => res.json())
+		
+	}
+		
+	
+})
 
-});
-
-// <div class="card" data-id="1"><p>Prince</p>
-//   <button data-trainer-id="1">Add Pokemon</button>
-//   <ul>
-//     <li>Jacey (Kakuna) <button class="release" data-pokemon-id="140">Release</button></li>
-//     <li>Zachariah (Ditto) <button class="release" data-pokemon-id="141">Release</button></li>
-//     <li>Mittie (Farfetch'd) <button class="release" data-pokemon-id="149">Release</button></li>
-//     <li>Rosetta (Eevee) <button class="release" data-pokemon-id="150">Release</button></li>
-//     <li>Rod (Beedrill) <button class="release" data-pokemon-id="151">Release</button></li>
-//   </ul>
-// </div>
